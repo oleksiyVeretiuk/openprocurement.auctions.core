@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.1'
+version = '1.0.1-sale'
 
 entry_points = {
     'openprocurement.api.plugins': [
@@ -23,7 +23,7 @@ setup(name='openprocurement.auctions.core',
       author='Quintagroup, Ltd.',
       author_email='info@quintagroup.com',
       license='Apache License 2.0',
-      url='https://github.com/openprocurement/openprocurement.auctions.core',
+      url='https://github.com/prozorro-sale/openprocurement.auctions.core',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['openprocurement', 'openprocurement.auctions'],
       include_package_data=True,
