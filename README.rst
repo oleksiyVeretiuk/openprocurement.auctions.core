@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/openprocurement/openprocurement.auctions.core.svg?branch=master
-    :target: https://travis-ci.org/openprocurement/openprocurement.auctions.core
+.. image:: https://travis-ci.org/prozorro-sale/openprocurement.auctions.core.svg?branch=master
+    :target: https://travis-ci.org/prozorro-sale/openprocurement.auctions.core
 
 .. image:: https://coveralls.io/repos/openprocurement/openprocurement.auctions.core/badge.svg
   :target: https://coveralls.io/r/openprocurement/openprocurement.auctions.core
