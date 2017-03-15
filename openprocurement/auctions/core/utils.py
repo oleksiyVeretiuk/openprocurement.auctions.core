@@ -49,7 +49,7 @@ def generate_auction_id(ctime, db, server_id=''):
             sleep(1)
         else:
             break
-    return 'UA-EA-{:04}-{:02}-{:02}-{:06}{}'.format(ctime.year, ctime.month, ctime.day, index, server_id and '-' + server_id)
+    return 'UA-PS-{:04}-{:02}-{:02}-{:06}{}'.format(ctime.year, ctime.month, ctime.day, index, server_id and '-' + server_id)
 
 
 def auction_serialize(request, auction_data, fields):
