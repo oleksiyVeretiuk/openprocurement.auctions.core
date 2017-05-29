@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '1.0.1-sale.2'
+version = '1.0.2-sale'
 
 entry_points = {
     'openprocurement.api.plugins': [
