@@ -411,24 +411,25 @@ def add_next_award(request):
             auction.status = 'active.awarded'
 
 
-def error_handler(errors, request_params=True):
+def error_handler(request, request_params=True):
+    errors = request.errors
     params = {
         'ERROR_STATUS': errors.status
     }
     if request_params:
-        params['ROLE'] = str(errors.request.authenticated_role)
-        if errors.request.params:
-            params['PARAMS'] = str(dict(errors.request.params))
-    if errors.request.matchdict:
-        for x, j in errors.request.matchdict.items():
+        params['ROLE'] = str(request.authenticated_role)
+        if request.params:
+            params['PARAMS'] = str(dict(request.params))
+    if request.matchdict:
+        for x, j in request.matchdict.items():
             params[x.upper()] = j
-    if 'auction' in errors.request.validated:
-        params['AUCTION_REV'] = errors.request.validated['auction'].rev
-        params['AUCTIONID'] = errors.request.validated['auction'].auctionID
-        params['AUCTION_STATUS'] = errors.request.validated['auction'].status
+    if 'auction' in request.validated:
+        params['AUCTION_REV'] = request.validated['auction'].rev
+        params['AUCTIONID'] = request.validated['auction'].auctionID
+        params['AUCTION_STATUS'] = request.validated['auction'].status
     LOGGER.info('Error on processing request "{}"'.format(dumps(errors, indent=4)),
-                extra=context_unpack(errors.request, {'MESSAGE_ID': 'error_handler'}, params))
-    return json_error(errors)
+                extra=context_unpack(request, {'MESSAGE_ID': 'error_handler'}, params))
+    return json_error(request)
 
 
 opresource = partial(resource, error_handler=error_handler, factory=factory)
@@ -454,9 +455,9 @@ def auction_from_data(request, data, raise_error=True, create=True):
     procurementMethodType = data.get('procurementMethodType', 'belowThreshold')
     model = request.registry.auction_procurementMethodTypes.get(procurementMethodType)
     if model is None and raise_error:
-       request.errors.add('data', 'procurementMethodType', 'Not implemented')
+       request.errors.add('body', 'data', 'procurementMethodType is not implemented')
        request.errors.status = 415
-       raise error_handler(request.errors)
+       raise error_handler(request)
     update_logging_context(request, {'auction_type': procurementMethodType})
     if model is not None and create:
        model = model(data)
@@ -469,7 +470,7 @@ def extract_auction_adapter(request, auction_id):
     if doc is None or doc.get('doc_type') != 'Auction':
         request.errors.add('url', 'auction_id', 'Not Found')
         request.errors.status = 404
-        raise error_handler(request.errors)
+        raise error_handler(request)
 
     return request.auction_from_data(doc)
 
